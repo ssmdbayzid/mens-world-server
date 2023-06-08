@@ -5,6 +5,8 @@ const cors = require("cors");
 const connectDB = require("./config/connectDB");
 const productRoute = require("./routes/productRoute");
 const signUpRoute = require("./routes/auth/signupRoute");
+const logInRoute = require("./routes/auth/logInRoute");
+const userRoute = require("./routes/userRoute");
 require("dotenv").config()
 
 // ------------ Middleware -----------
@@ -13,9 +15,17 @@ app.use(express.json())
 app.use(cors())
 
 
-//   Routes 
+//-----------   Routes Section --------------
 
-app.use("/api/signUp", signUpRoute)
+// -------- Auth Route -------------
+
+app.use("/auth/signUp", signUpRoute)
+app.use("/auth/logIn", logInRoute)
+
+// User Route
+app.use("/users", userRoute)
+
+// Product Route
 app.use("/products", productRoute)
 
 app.get("/", (req, res)=>{
