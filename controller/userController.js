@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+
 const User = require("../models/userModel")
 const bcrypt = require("bcrypt")
 
@@ -57,15 +57,17 @@ exports.updateUser = async (req, res) =>{
 exports.deleteUser = async (req, res)=>{
     const userId = req.params.userId;
 
-    console.log(userId)
-    
+    // console.log(userId)
     try {
-        const user = User.findById(userId)
+        const user = await User.findById(userId)
+        
+
         if(!user){
             res.status(400).json({message: "Wrong User"})
         }
     
-        const deleteUser = User.findByIdAndDelete(userId)
+        const deleteUser = await User.findByIdAndDelete(userId)
+        // console.log(deleteUser)
 
         res.status(200).json({message: "User Delete Successfully", deleteUser})
         
