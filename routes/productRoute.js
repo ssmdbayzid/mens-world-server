@@ -1,14 +1,20 @@
-const { getAllProducts, postProduct } = require("../controller/productController");
+const { getAllProducts, postProduct, getProduct, updateProduct, deleteProduct } = require("../controller/productController");
+const { authMiddleware } = require("../middleware/auth");
 
 const productRoute = require("express").Router();
 
-//* Get product & Post product controller
+//* Get All product & post product
+productRoute.get("/", authMiddleware, getAllProducts)
+productRoute.post("/", authMiddleware, postProduct);
 
-productRoute.route("/").get(getAllProducts).post(postProduct);
+
+//* Get Single Product
+productRoute.get("/:productId ", authMiddleware, getProduct)
 
 //* Update product & Delete product controller
 
-productRoute.route("/:id").put(getAllProducts).delete(postProduct);
+productRoute.put("/:productId",authMiddleware, updateProduct)
+productRoute.delete("/:productId", authMiddleware, deleteProduct)
 
 
 module.exports = productRoute;

@@ -5,8 +5,7 @@ const bcrypt = require("bcrypt")
 exports.getAllUser = async (req, res) =>{
     try {
         const users = await User.find();
-
-        res.status(200).json(users)
+       return res.status(200).json(users)
     } catch (error) {
         res.status(401).json({message: "something went wrong"})
     }
@@ -24,7 +23,7 @@ exports.getUser  = async (req, res) =>{
         if(!user){
             return res.status(400).json("Wrong User")
         }
-        res.status(200).json(user)
+       return  res.status(200).json(user)
     } catch (error) {
         res.status(401).json({message: "Some things went wrong"})
     }
@@ -46,7 +45,7 @@ exports.updateUser = async (req, res) =>{
             new: true,
         })
 
-        res.status(200).json({message: "Profile update successfully", userUpdate})
+       return res.status(200).json({message: "Profile update successfully", userUpdate})
     } catch (error) {
         res.status(401).json({message: "Something went wrong"})
     }
@@ -69,7 +68,7 @@ exports.deleteUser = async (req, res)=>{
         const deleteUser = await User.findByIdAndDelete(userId)
         // console.log(deleteUser)
 
-        res.status(200).json({message: "User Delete Successfully", deleteUser})
+       return res.status(200).json({message: "User Delete Successfully", deleteUser})
         
     } catch (error) {
         res.status(401).json({message: error.message})
