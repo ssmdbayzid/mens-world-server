@@ -9,11 +9,11 @@ productRoute.post("/", authMiddleware, postProduct);
 
 
 //* Get Single Product
-productRoute.get("/:productId ", authMiddleware, getProduct)
+productRoute.get("/:productId", authMiddleware, getProduct)
 
 //* Update product & Delete product controller
 
-productRoute.put("/:productId",authMiddleware, updateProduct)
+productRoute.put("/:productId", authMiddleware, updateProduct)
 productRoute.delete("/:productId", authMiddleware, deleteProduct)
 
 

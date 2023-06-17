@@ -15,12 +15,13 @@ exports.getAllProducts = async (req, res) =>{
 
 exports.getProduct = async (req, res)=> {
     const productId = req.params.productId;
+    console.log(productId)
     try {
        const product = await Product.findById(productId)
        if(!product){
         return res.status(400).json("Wrong product")
        }
-       return res.status(200).json({product})
+       return res.status(200).json(product)
     } catch (error) {
         return res.status(401).json("some thing wrong")
     }
@@ -47,16 +48,16 @@ exports.postProduct= async (req, res)=>{
 
 //* Update Product
 
-exports.updateProduct = async (req, res) => {
+exports.updateProduct = async (req, res) => {         
     const productId = req.params.productId;
-    console.log(productId)
+    
     try {
         const product = await Product.findById(productId)
         console.log(product)
         if(!product){
             return res.statun(400).json({message: "Unknown product"})
         }
-        req.body.password = await bcrypt.hash(req.body.password, 11)
+
         const updateProduct = await Product.findByIdAndUpdate(productId, req.body, {
             new:true,
         })
@@ -71,7 +72,7 @@ exports.updateProduct = async (req, res) => {
 
 //* Delete Product
 
-exports.deleteProduct = async (req, res)=> {
+exports.deleteProduct = async (req, res) => {
     const productId = req.params.productId;
     try {
        const product = await Product.findById(productId);
