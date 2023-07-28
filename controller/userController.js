@@ -46,3 +46,21 @@ exports.updateUser = async (req, res)=> {
         return res.status(401).json({message: error.message})
     }   
 }
+
+// ------- Delete user --------------------
+
+exports.deleteUser = async (req, res) => {
+    const userId = req.params.userId;
+    console.log(userId)
+    try {
+        const user = await User.findById(userId)
+        if(!user){
+            return res.status(400).json({message: "Wrong user data"})
+        }
+        const deleteUser = await User.findByIdAndDelete(userId);
+
+       return res.status(200).json({message: "User delete successfully", deleteUser})
+    } catch (error) {
+        return res.status(401).json({message: error.message})
+    }
+}
