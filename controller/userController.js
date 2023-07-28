@@ -26,3 +26,23 @@ exports.getUser = async (req, res ) => {
         return res.status(401).json({message: error.message})
     }
 }
+
+//------------ Update User ------------
+
+exports.updateUser = async (req, res)=> {
+    const userId = req.params.userId;
+    try {
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(400).json({message: "Wrong user"})
+        }
+
+        const updateUser = await User.findByIdAndUpdate(userId, req.body, {
+            new: true,
+        });
+
+        return res.status(200).json({message: "Update profile successfully", updateUser})
+    } catch (error) {
+        return res.status(401).json({message: error.message})
+    }   
+}
