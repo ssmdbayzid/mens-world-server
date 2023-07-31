@@ -6,6 +6,7 @@ const connectDB = require("./config/connectDB")
 const cors = require("cors");
 const userRoute = require('./routes/userRoute');
 const productRoute = require('./routes/productRoute');
+const orderRoute = require('./routes/orderRoute');
 require("dotenv").config()
 
 
@@ -21,6 +22,8 @@ app.use(cors())
 
 app.use("/users", userRoute)
 app.use("/products", productRoute)
+app.use("/orders", orderRoute)
+
 
 app.get("/", (req, res)=> {
     res.send("Server error find")
