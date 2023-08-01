@@ -1,15 +1,20 @@
 const SSLCommerzPayment = require('sslcommerz-lts')
 const { v4: uuidv4 } = require('uuid');
+const Order = require('../models/orderModel');
+
 
 // SSL Commerz Sandbox
 
-const store_id = "a64bbd08b135e1"
-const store_passwd = "a64bbd08b135e1@ssl"
-const is_live = false //true for live, false for sandbox
+
 
 
 
 exports.postOrder = async (req, res) =>{
+    
+    const store_id = await process.env.STORE_ID
+    const store_passwd = await process.env.STORE_PASSWORD
+    const is_live = false //true for live, false for sandbox
+    
     try {
         const order = req.body;
         const trans_id = uuidv4()
@@ -47,10 +52,14 @@ exports.postOrder = async (req, res) =>{
         };
          
         const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
-        sslcz.init(data).then(apiResponse => {
+        sslcz.init(data).then(async apiResponse => {
             // Redirect the user to payment gateway
             let GatewayPageURL = apiResponse.GatewayPageURL
-            console.log(` this is from sslcz ${GatewayPageURL}`)
+            // console.log(` this is from sslcz ${GatewayPageURL}`)
+            const order = await Order.create(data)
+
+            console.log(order)
+            
            return res.send({url: GatewayPageURL})
             // console.log('Redirecting to: ', GatewayPageURL)
         });
