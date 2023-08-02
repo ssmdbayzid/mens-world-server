@@ -9,7 +9,7 @@ const Order = require('../models/orderModel');
 
 
 
-exports.postOrder = async (req, res) =>{
+exports.makeOrder = async (req, res) =>{
     
     const store_id = await process.env.STORE_ID
     const store_passwd = await process.env.STORE_PASSWORD
@@ -24,7 +24,7 @@ exports.postOrder = async (req, res) =>{
             total_amount: order.totalPrice,
             currency: 'BDT',
             tran_id: trans_id, // use unique tran_id for each api call
-            success_url: 'http://localhost:3030/success',
+            success_url: `http://localhost:5000/orders/payment/success/${trans_id}`,
             fail_url: 'http://localhost:3030/fail',
             cancel_url: 'http://localhost:3030/cancel',
             ipn_url: 'http://localhost:3030/ipn',
@@ -56,9 +56,18 @@ exports.postOrder = async (req, res) =>{
             // Redirect the user to payment gateway
             let GatewayPageURL = apiResponse.GatewayPageURL
             // console.log(` this is from sslcz ${GatewayPageURL}`)
-            const order = await Order.create(data)
+            const order1 = await Order.create({
+                trans_id: trans_id,
+                customer_name: order.name,
+                customer_email: order.email,
+                customer_address: order.address,
+                customer_mobile: order.mobile,
+                total_Price: order.totalPrice,
+                paid: false,
 
-            console.log(order)
+
+            })                   
+            console.log(order1)
             
            return res.send({url: GatewayPageURL})
             // console.log('Redirecting to: ', GatewayPageURL)
@@ -67,5 +76,10 @@ exports.postOrder = async (req, res) =>{
     } catch (error) {
         return res.status(401).json({message: error.message})
     }
+}
 
+exports.postOrder = async (req, res)=>{
+    const transitionId = req.params;
+    console.log(transitionId)
+    
 }

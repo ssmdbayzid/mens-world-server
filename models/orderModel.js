@@ -1,36 +1,40 @@
 const mongoose = require("mongoose")
 
 const orderSchema = new mongoose.Schema({
-    tran_id: {
+    trans_id: {
         type: String,
         trim: true,
         required: true,
         unique: true,
     },
-    cus_name : {
+    customer_name : {
         type: String,
         trim:true,
         required: true,        
     },
-    cus_email:{
+    customer_email:{
         type: String,
         trim: true,
         required: true,
     },
-    cus_add1: {
+    customer_address: {
         type: String,
         trim: true,
         required: true,
     },
-    cus_phone: {
+    customer_mobile: {
         type: String,
         trim: true,
         required: true,
     },
-    total_amount: {
+    total_Price: {
         type:Number,
         trim: true,
         requied: true,
+    },
+    paid: {
+        type:Boolean,
+        required: true,
     }
 })
 
