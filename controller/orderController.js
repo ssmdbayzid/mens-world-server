@@ -9,7 +9,7 @@ const Order = require('../models/orderModel');
 
 
 
-exports.makeOrder = async (req, res) =>{
+exports.postOrder = async (req, res) =>{
     
     const store_id = await process.env.STORE_ID
     const store_passwd = await process.env.STORE_PASSWORD
@@ -19,12 +19,13 @@ exports.makeOrder = async (req, res) =>{
         const order = req.body;
         const trans_id = uuidv4()
 
-        // console.log(`This is uuid ${trans_id}`)
+        console.log(`This is uuid ${trans_id}`)
+
         const data = {
             total_amount: order.totalPrice,
             currency: 'BDT',
             tran_id: trans_id, // use unique tran_id for each api call
-            success_url: `http://localhost:5000/orders/payment/success/${trans_id}`,
+            success_url: `http://localhost:5000/orders/payment/success?transactionId=${trans_id}`,
             fail_url: 'http://localhost:3030/fail',
             cancel_url: 'http://localhost:3030/cancel',
             ipn_url: 'http://localhost:3030/ipn',
@@ -56,8 +57,9 @@ exports.makeOrder = async (req, res) =>{
             // Redirect the user to payment gateway
             let GatewayPageURL = apiResponse.GatewayPageURL
             // console.log(` this is from sslcz ${GatewayPageURL}`)
+
             const order1 = await Order.create({
-                trans_id: trans_id,
+                // tran_id: trans_id,
                 customer_name: order.name,
                 customer_email: order.email,
                 customer_address: order.address,
@@ -67,7 +69,8 @@ exports.makeOrder = async (req, res) =>{
 
 
             })                   
-            console.log(order1)
+            console.log(`This is from ${order1}`)
+
             
            return res.send({url: GatewayPageURL})
             // console.log('Redirecting to: ', GatewayPageURL)
@@ -78,8 +81,8 @@ exports.makeOrder = async (req, res) =>{
     }
 }
 
-exports.postOrder = async (req, res)=>{
-    const transitionId = req.params;
-    console.log(transitionId)
+exports.updateOrder = async (req, res)=>{
+    const transactionId = req.query;
+    console.log(`This is from ${transactionId}`)
     
 }

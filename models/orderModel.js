@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 const orderSchema = new mongoose.Schema({
-    trans_id: {
+    tran_id: {
         type: String,
         trim: true,
         required: true,

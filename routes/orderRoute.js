@@ -1,9 +1,9 @@
-const { postOrder, makeOrder } = require("../controller/orderController");
+const { postOrder, updateOrder } = require("../controller/orderController");
 
 const orderRoute = require("express").Router()
 
-orderRoute.post("/", makeOrder)
-orderRoute.post("/payment/success/:id", postOrder)
+orderRoute.post("/", postOrder)
+orderRoute.put("/payment/success", updateOrder)
 
 
 module.exports  = orderRoute;
